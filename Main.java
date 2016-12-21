@@ -8,7 +8,13 @@ import java.io.InputStreamReader;
 
 public class Main
 {
-
+  /*---------------------------------------------------------*/
+  /* Function Name: main                                     */
+  /*                                                         */
+  /* Description: Main function for processing Link State    */
+  /*              Packets.                                   */
+  /*                                                         */
+  /*---------------------------------------------------------*/
   public static void main(String[] args) throws FileNotFoundException
   {
     Link_State link_state = new Link_State();
@@ -16,11 +22,13 @@ public class Main
     String     input      = "";
     BufferedReader br     = new BufferedReader(new InputStreamReader(System.in));
     
+    // Process input file to bring in router data
     link_state.Process_File(input_file);
 
-    
+    // Continue as long as the user does not enter Q
     while(!input.equals("Q"))
     {
+      // Print information Table
       System.out.println("Conintue    (C)");
       System.out.println("Print Table (P <Integer>)");
       System.out.println("Shutdown    (S <Integer>)");
@@ -28,12 +36,15 @@ public class Main
       System.out.println("Quit        (Q)");
       try
       {
+        // Read user input
         input = br.readLine();
         
+        // If C then continue with another cycle of packet flooding
         if(input.contains("C"))
         {
           link_state.Continue_Process();
         }
+        // If S then shutdown router
         else if(input.contains("S"))
         {
           String split[] = input.split(" ");
@@ -41,6 +52,7 @@ public class Main
           link_state.Change_Router_State(split[1], false);
           System.out.println("Turning off " + split[1]);
         }
+        // If T then Turn on router
         else if(input.contains("T"))
         {
           String split[] = input.split(" ");
@@ -48,11 +60,13 @@ public class Main
           link_state.Change_Router_State(split[1], true);
           System.out.println("Turning on " + split[1]);
         }
+        // If P then print routing table
         else if(input.contains("P"))
         {
           String split[] = input.split(" ");
           link_state.Print_Routing_Table(split[1]);
         }
+        // Let user know if they input an invalid input
         else if(!input.contains("Q"))
         {
           System.out.println("Invalid input please try again");
@@ -66,6 +80,10 @@ public class Main
       {
         System.out.println("Invalid input please try again");
       }
-    }
-  }
-}
+      catch(ArrayIndexOutOfBoundsException e)
+      {
+        System.out.println("Invalid input please try again");
+      }
+    }  // End While loop
+  }  // End Function Main
+}  // End Class Main
